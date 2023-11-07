@@ -73,7 +73,51 @@ class SquareBoardImpl(inWidth: Int) : SquareBoard {
 
 }
 
+class GameBoardImpl<T>(inSqBoard : SquareBoard) :GameBoard<T>, SquareBoard by inSqBoard{
+
+    val valueMap = hashMapOf<Cell, T?>()
+    val sqBoard = inSqBoard
+
+    init {
+        for (row in 1..width) {
+            for (col in 1..width) {
+                valueMap[Cell(row, col)] = null
+            }
+        }
+    }
+    override fun get(cell: Cell): T? {
+        return valueMap[cell]
+    }
+
+    override fun all(predicate: (T?) -> Boolean): Boolean {
+        return valueMap.filterValues(predicate).size == sqBoard.width * sqBoard.width
+    }
+
+    override fun any(predicate: (T?) -> Boolean): Boolean {
+        return valueMap.filterValues(predicate).keys.isNotEmpty()
+    }
+
+    override fun find(predicate: (T?) -> Boolean): Cell? {
+        return valueMap.filterValues(predicate).keys.firstOrNull()
+    }
+
+    override fun filter(predicate: (T?) -> Boolean): Collection<Cell> {
+        return valueMap.filterValues(predicate).keys
+    }
+
+    override fun set(cell: Cell, value: T?) {
+        valueMap.remove(cell)
+        valueMap[cell] = value
+    }
+
+
+}
+
+
 
 fun createSquareBoard(width: Int): SquareBoard = SquareBoardImpl(width)
-fun <T> createGameBoard(width: Int): GameBoard<T> = TODO()
+fun <T> createGameBoard(width: Int): GameBoard<T> {
+    val sqBoard = createSquareBoard(width)
+    return GameBoardImpl<T>(sqBoard)
+}
 
