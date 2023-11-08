@@ -40,7 +40,7 @@ object RandomGame2048Initializer: Game2048Initializer<Int> {
                 val value = board[cell]
                 if (value == null) {
                     targetCellIndex1 -= 1
-                    if (targetCellIndex1 == 0)
+                    if (targetCellIndex1 <= 0)
                         return cell
                 }
             }
