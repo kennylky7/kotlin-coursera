@@ -27,6 +27,12 @@ interface SquareBoard {
     fun getColumn(iRange: IntProgression, j: Int): List<Cell>
 
     fun Cell.getNeighbour(direction: Direction): Cell?
+
+    object SquareBoard {
+        fun getCellKey(i: Int, j: Int): String {
+            return "$i+$j"
+        }
+    }
 }
 
 interface GameBoard<T> : SquareBoard {
