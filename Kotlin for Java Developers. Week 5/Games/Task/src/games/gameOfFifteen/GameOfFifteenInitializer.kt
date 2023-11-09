@@ -35,7 +35,7 @@ class RandomGameInitializer : GameOfFifteenInitializer {
             }
             list[prev + 1] = currentValue
             if (isSwapped)
-                break;
+                break
         }
     }
 }
